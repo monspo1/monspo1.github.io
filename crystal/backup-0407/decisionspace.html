@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>CRYSTAL - SEER DATA CHART</title>
+	<!-- Bootstrap -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="css/bootstrap-select.css" rel="stylesheet"/>
+	
+	<style type="text/css">
+    	body {
+        	padding-top: 60px;
+			padding-bottom: 40px;
+		}
+      
+		.sidebar-nav {
+			padding: 9px 0;
+		}
+		
+		.hero-unit .row{
+			padding: 0px 0px 0px 0px;
+		}
+		
+		.row-fluid{
+			/* padding: top right bottom left */
+			padding: 20px 20px 20px 20px;
+			
+		}
+		
+		.row-fluid .row{
+			padding: 0px 20px 20px 20px;
+			
+		}
+		
+		@media (max-width: 980px) {
+			/* Enable use of floated navbar text */
+			.navbar-text.pull-right {
+				float: none;
+				padding-left: 5px;
+				padding-right: 5px;
+			}
+		}
+    </style>
+	
+    <link href="../../css/bootstrap-responsive.min.css" rel="stylesheet"/>
+	<!--
+	<link href="css/bootstrap.css" rel="stylesheet">
+	<link href="css/docs.css" rel="stylesheet">
+	-->
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../assets/js/html5shiv.js"></script>
+    <![endif]-->
+    
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/apple-touch-icon-72-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="img/favicon.png">
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
+	
+    <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+	<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+	<script src="http://code.highcharts.com/highcharts.js"></script>
+	<script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+	<script src="js/bootstrap-transition.js"></script>
+	<script src="js/jquery.csv-0.71.js"></script>
+	<script src="ours/app-v2.js"></script>
+	<script src="data/Seerdata.js"></script>
+	<script src="data/seerdata2.json"></script>
+	<script src="js/jlinq.js"></script>
+	<script src="js/underscore.js"></script>
+	<script src="js/bootstrap-select.js"></script>
+    
+</head>
+<body onload="decisionspaceOnLoad()">
+    <!--<h1>Hello, world!</h1>-->
+	<!-- Tab 4 -->
+	<div id=tabs>
+    	<h3>Your Treatment Decision Space</h3>
+		<!--
+		<div class="hero-unit">	
+			<div class="row show-grid">
+            <div class="span12">
+              <h4>Patient Information</h4>
+              <div class="row show-grid">
+                <div class="span5">
+                  <strong>Diagnosis: </strong>Cancer, Prostate
+                </div>
+                <div class="span2">
+                  <strong>Age: </strong>62
+                </div>
+				<div class="span4">
+                  <strong>Ethnicity: </strong>White
+                </div>
+				<div class="span1">
+                  <a href="#">Edit</a>
+                </div>
+              </div>
+            </div>
+          </div>
+		</div>
+		-->
+		<div class="form-actions">
+			<div class="span12">
+            	<h4 class="text-info">Patient Information</h4>
+              	<div class="row show-grid">
+                	<div class="span5">
+                  		<strong>Diagnosis: </strong>Cancer, Prostate
+                	</div>
+                	
+					<div class="span2" id="ageValueInDS">
+                  		<strong>Age: </strong>
+                	</div>
+				
+					<div class="span4" id="ethnicityValueInDS">
+                  		<strong>Ethnicity: </strong>
+                	</div>
+					
+					<div class="span1">
+						
+						<a href="#modalForPatientInfo" role="button" class="btn btn-primary btn-small" data-toggle="modal">Edit </a>	
+						<div id="modalForPatientInfo" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+								<h3 id="myModalLabel">Modify Patient Information</h3>
+							</div>
+							<div class="modal-body" style="height: 450px; width: 700px">
+								<p>You can change the patient information here...</p>
+								
+								<div  style="padding-left: 30px; padding-right: 10px; padding-top:60px">
+									<form>
+										<fieldset>
+											
+											<div class="row show-grid">
+												<div class="span3">Condition: </div>
+												<!--<div class="span5">-->
+												<div>
+													<select class="selectpicker" id="selectPickerForCondition">
+														<option>Cancer, Prostate</option>
+													</select>
+												</div>
+											</div>
+											
+											<div class="row show-grid">
+												<div class="span3">Age at diagnosis: </div>
+												<!--<div class="span5">-->
+												<div>
+													<input type="text" id="inputForPatientAgeInModal" placeholder="Type age">
+												</div>
+											</div>
+											<div class="row show-grid">
+												<div class="span3">Ethnicity: </div>
+												<!--<div class="span5">-->
+												<div>
+													<select class="selectpicker" id="selectPickerForEthnicityInModal">
+														<option>Black</option>
+														<option>Other (American Indian/AK Native; Asian/Pacific Islander)</option>
+														<option>Other unspecified (1991+)</option>
+														<option>Unknown</option>
+														<option>White</option>
+													</select>
+												</div>
+											</div>
+										</fieldset>
+									</form>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<div >
+									<!--<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>-->
+									<!--<button class="btn btn-primary">Save changes</button>-->
+									
+									<div id="modifyValueInModal" style="float:center; padding-right: 20px">
+										<p>
+											<button id="modifyValueBtnInModal" class="btn btn-primary" type="button" onclick="modifyPatientInfoInModal()">Modify Patient Info</button>
+										</p>
+									</div>
+								</div>
+							</div>	
+						</div>	
+                	</div>
+				</div>
+            </div>
+		</div>
+		
+		<div class="plot">
+			<div class="span12">
+				<div class="row show-grid">
+					<div class="span3">
+						<h4>Visualization Type: </h4>
+					</div>
+					<div class="span6">
+						<div class="btn-group">
+							<button class="btn active">Scatterplot</button>
+							<button class="btn">Boxplot</button>
+							<!-- 
+							http://stackoverflow.com/questions/10941606/how-to-get-the-value-of-selected-button-in-twitter-bootstrap-button-group 
+							http://stackoverflow.com/questions/10273307/how-do-i-turn-a-button-group-in-bootstrap-into-a-radio-style-input-to-my-form
+							-->
+						</div>
+					</div>
+					<div class="span3">
+						<!--
+						<label class="checkbox">
+							<input type="checkbox" id="checkboxForMedian"> Show Median?
+						</label>
+						-->
+						
+						<button id="buttonForMedian" type="button" class="btn btn-small" data-target="" onclick="showMedians()">Show Median?</button>
+						
+						<!--<button id="buttonForMedian" type="button" class="btn btn-small" data-target="">Show Median?</button>
+						-->
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="chart-container" style="width: 90%; height: 600px; margin: 0 auto; padding-bottom: 50px">
+		</div>
+		
+		<!--
+		<input id=run3 type=button value="Run" />
+		<hr />
+		<h4>Result:</h4>
+		<div class=result>
+		  <table id=result3 border=1></table>
+		</div>
+		-->
+		<!-- 
+		-->
+		
+	</div>
+	<section id="collapse">
+		<br/>
+		
+		<div class="bs-docs-example">
+			<div class="accordion" id="accordion2">
+				<div class="accordion-group">
+					<div class="accordion-heading">
+						<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+							Filter the plot
+						</a>
+					</div>
+					<div id="collapseOne" class="accordion-body collapse out">
+						<div class="accordion-inner">
+						
+							<div class="row-fluid">
+								<div class="span12 ">
+									<div class="row">
+										<div class="span6">
+											<div class="row">
+												<div class="span9">
+													<div class="row">
+														<div class="span6">Stage at diagnosis: </div>
+														<div class="span3">
+															<!--
+															<div>dkalsfjklasdjf2.1.</div>
+															<div>dkalsfjklasdjf2.1.</div>
+															<div>dkalsfjklasdjf2.1.</div>
+															<div>dkalsfjklasdjf2.1.</div>
+															<div>dkalsfjklasdjf2.1.</div>
+															-->
+															<div class="control-group">
+																<!--<p class="pull-left">Payment Types</p>-->
+																<!-- 
+																	http://jsfiddle.net/LVFzK/																												http://stackoverflow.com/questions/10887893/twitter-bootstrap-checkbox-columns-columns-within-form
+																-->
+																<div class="controls span2">
+																	<label class="checkbox">
+																		<input type="checkbox" value="option1" id="inlineCheckbox1"> 0
+																	</label>
+																	<label class="checkbox">
+																		<input type="checkbox" value="option2" id="inlineCheckbox2"> I
+																	</label>
+																	<label class="checkbox">
+																		<input type="checkbox" value="option3" id="inlineCheckbox3"> II
+																	</label>
+																	<label class="checkbox">
+																		<input type="checkbox" value="option3" id="inlineCheckbox4"> III
+																	</label>
+																	<label class="checkbox">
+																		<input type="checkbox" value="option4" id="inlineCheckbox5"> IV
+																	</label>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											
+											<!--
+											<div class="row">
+												<div class="span9">
+													<div class="row">
+														<div class="span6">Stage at diagnosis: </div>
+														<div class="span3">
+															<div>dkalsfjklasdjf2.1.</div>
+															<div>dkalsfjklasdjf2.1.</div>
+															<div>dkalsfjklasdjf2.1.</div>
+															<div>dkalsfjklasdjf2.1.</div>
+															<div>dkalsfjklasdjf2.1.</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											-->
+											<div class="row">
+												<div class="span9">
+													<div class="row">
+														<div class="span6">Age at diagnosis: </div>
+														<div class="span6">
+															<!--
+															<div>dkalsfjklasdjf2.1.</div>
+															<div>dkalsfjklasdjf2.1.</div>
+															<div>dkalsfjklasdjf2.1.</div>
+															<div>dkalsfjklasdjf2.1.</div>
+															-->
+															<div id="slider-range" style="width: 250px"></div>
+															<!--
+																http://jqueryui.com/slider/#range
+															-->
+															
+															<div class="row">
+																<div class="span6"><label for="amount">Range:</label></div>
+																<div class="span5"><input type="text" id="amount" style="border: 0; color: #f6931f; font-weight: bold;" /></div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										
+										<div class="span6">
+											<div>Highlight men in the plot who had this side effect: </div>
+											<div class="row">
+												<div class="span4">Side effect: </div>
+												
+												<div class="span3">
+													<!--
+													<div class="btn-group">
+														<button class="btn dropdown-toggle" data-toggle="dropdown" style="width: 150px" id="dropdownForUpdateVis">dropdown <span class="caret"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#">action</a></li>
+															<li><a href="#">Another action</a></li>
+															<li><a href="#">Something else here</a></li>
+															<li class="divider"></li>
+															<li><a href="#">Separated link</a></li>
+														</ul>
+													</div><!-- /btn-group -->
+													<select class="selectpicker" id="selectPickerForSideEffects">
+														<option></option>
+														<option>Anemia</option>
+														<option>Bowel Dysfunction</option>
+														<option>Decreased Libido</option>
+														<option>Erectile Dysfunction</option>
+														<option>Fatigue</option>
+														<option>Hot Flash</option>
+														<option>Nausea / Vomiting</option>
+														<option>Urinary Dysfunction</option>
+														<option>Weight Loss</option>
+													</select>
+												</div>
+											</div>
+											<div class="span6 offset3">
+												<br/><br/><button id="updateChartBtn" type="button" class="btn btn-danger btn-large" data-target="" onclick="updateVisButnClick()">Update Visualization</button>
+											</div>
+										</div>
+									</div>
+									<!-- Highlight men in the plot who had this side effect: -->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			  	
+				<!--
+				<div class="accordion-group">
+					<div class="accordion-heading">
+						<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+							Collapsible Group Item #2
+						</a>	
+					</div>
+					<div id="collapseTwo" class="accordion-body collapse">
+						<div class="accordion-inner">
+							Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+						</div>
+					</div>
+				</div>
+				
+				<div class="accordion-group">
+					<div class="accordion-heading">
+						<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+							Collapsible Group Item #3
+						</a>	
+					</div>
+					<div id="collapseThree" class="accordion-body collapse">
+						<div class="accordion-inner">
+							Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+						</div>
+					</div>
+				</div>
+				-->
+			</div>
+		</div>
+		<!--
+		<button type="button" class="btn btn-danger" data-toggle="collapse" data-target="#demo">
+			simple collapsible
+		</button>
+		
+		<div id="demo" class="collapse out"> 
+			adklfjksdlfjslkdfjlskadjflkas 
+		</div>	
+		-->
+	</section>
+	
+	
+</body>
+
+</html>

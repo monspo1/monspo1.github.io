@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE cross-domain-policy SYSTEM "http://www.macromedia.com/xml/dtds/cross-domain-policy.dtd">
+
+<cross-domain-policy>
+
+    <allow-access-from domain="*" to-ports="*"/>
+    <allow-access-from domain="mapquestapi.com" to-ports="*"/>
+    <allow-access-from domain="www.mapquestapi.com" to-ports="*"/>
+    <allow-access-from domain="*.mapquest.com" to-ports="*"/>
+    <allow-access-from domain="mapquest.com" to-ports="*"/>
+    <allow-access-from domain="www.mapquest.com" to-ports="*"/>
+    <allow-access-from domain="*.mapquestapi.com" to-ports="*"/>
+    
+    <allow-access-from domain="*.stevenentezari.com" to-ports="*"/>
+    <allow-access-from domain="stevenentezari.com" to-ports="*"/>
+    <allow-access-from domain="liuarthur.com" to-ports="*"/>
+    <allow-access-from domain="*.liuarthur.com" to-ports="*"/>
+    <allow-access-from domain="twitter.com" to-ports="*"/>
+    <allow-access-from domain="*.twitter.com" to-ports="*"/>
+    <allow-access-from domain="mypage.iu.edu/~sungmoon/" to-ports="*"/>
+    <allow-access-from domain="yahooapis.com" to-ports="*"/>
+    <allow-access-from domain="*.yahooapis.com" to-ports="*"/>                   
+  
+    <!--
+    <allow-access-from domain="www.yahooapis.com" to-ports="*"/>
+
+    <allow-access-from domain="www.stevenentezari.com" to-ports="*"/>
+    <allow-access-from domain="www.liuarthur.com" to-ports="*"/>
+    <allow-access-from domain="www.twitter.com" to-ports="*"/>
+
+   	<allow-http-request-headers-from domain="www.liuarthur.com" headers="*"/>
+
+	<allow-http-request-headers-from domain="www.twitter.com" headers="*"/>
+    <allow-http-request-headers-from domain="www.yahooapis.com" headers="*"/>
+    --> 
+
+	<allow-http-request-headers-from domain="www.mapquestapi.com" headers="*"/>
+   	<allow-http-request-headers-from domain="mapquestapi.com" headers="*"/>
+	<allow-http-request-headers-from domain="*.mapquestapi.com" headers="*"/>
+    <allow-http-request-headers-from domain="www.mapquest.com" headers="*"/>
+   	<allow-http-request-headers-from domain="mapquest.com" headers="*"/>
+	<allow-http-request-headers-from domain="*.mapquest.com" headers="*"/>
+    
+    <allow-http-request-headers-from domain=”*” headers=”SOAPAction”/>
+	<allow-http-request-headers-from domain="*" headers="*"/>
+    <allow-http-request-headers-from domain="*.stevenentezari.com" headers="*"/>
+	<allow-http-request-headers-from domain="mypage.iu.edu/~sungmoon/" headers="*"/>
+	<allow-http-request-headers-from domain="*.liuarthur.com" headers="*"/>    
+	<allow-http-request-headers-from domain="liuarthur.com" headers="*"/>
+	<allow-http-request-headers-from domain="*.twitter.com" headers="*"/>
+	<allow-http-request-headers-from domain="twitter.com" headers="*"/>
+    <allow-http-request-headers-from domain="*.yahooapis.com" headers="*"/>
+	<allow-http-request-headers-from domain="yahooapis.com" headers="*"/>
+
+	<site-control permitted-cross-domain-policies="all"/> 
+	
+     
+	 
+</cross-domain-policy>

@@ -1,0 +1,425 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+	<title>MARVAND Application</title>
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+    <link rel="stylesheet" href="http://jquerymobile.com/demos/1.2.0/docs/_assets/css/jqm-docs.css"/>
+	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+	<style>
+		.ui-header .ui-title {
+			margin-right: 10%;
+			margin-left: 10%;
+			/* 
+		http://stackoverflow.com/questions/8718384/why-is-my-header-text-being-truncated */
+
+		}
+		
+		#mylist .ui-li-has-thumb {
+			/*
+			<ul data-role="listview" data-filter="true" id="radarList">
+				<ul data-role="listview">
+                	<li><a href="index.html">
+			*/
+			padding-left: 200px;
+			padding-top: 30px;
+		}
+	</style>
+	<script src="http://www.mapquestapi.com/sdk/js/v7.0.s/mqa.toolkit.js?key=Fmjtd%7Cluua2lurlu%2Cas%3Do5-hyz00"></script> 
+    
+    <!-- *** SCRIPT FOR MAP ****************************************************************************** -->
+    <script type="text/javascript"> 
+		
+		// http://itouchmap.com/latlong.html
+		
+		var mylat = 42.352713;
+		var mylng = -71.859039;
+		/*
+		var latForInfo2 = mylat + 0.0060052;
+		var lngForInfo2 = mylng + 0.0330023;
+		
+		var latForInfo3 = mylat - 0.0105052;
+		var lngForInfo3 = mylng + 0.0130023;
+		
+		var latForInfo4 = mylat - 0.0105052;
+		var lngForInfo4 = mylng + 0.0230023;
+		
+		var latForCircle = mylat - 0.001;
+		var lngForCircle = mylng + 0.018;
+		console.log("mylat: " + latForCircle);
+		*/
+		var latForInfo2 = mylat + 0.0030052;
+		var lngForInfo2 = mylng + 0.0270023;
+		
+		var latForInfo3 = mylat - 0.0345052;
+		var lngForInfo3 = mylng + 0.0340023;
+		
+		var latForInfo4 = mylat - 0.0135052;
+		var lngForInfo4 = mylng + 0.0170023;
+		
+		var latForInfo5 = mylat + 0.0070052;
+		var lngForInfo5 = mylng + 0.0130023;
+		
+		var latForInfo6 = mylat - 0.00405052;
+		var lngForInfo6 = mylng + 0.0160023;
+		
+		var latForInfo7 = mylat - 0.0075052;
+		var lngForInfo7 = mylng + 0.0090023;
+		
+		var latForInfo8 = mylat - 0.0095052;
+		var lngForInfo8 = mylng + 0.0110023;
+		
+		var latForInfo9 = mylat + 0.0115052;
+		var lngForInfo9 = mylng + 0.00570023;
+		
+		var latForInfo10 = mylat + 0.01375052;
+		var lngForInfo10 = mylng - 0.00330023;
+		
+		var latForCircle = mylat - 0.001;
+		var lngForCircle = mylng + 0.018;
+		
+		
+		
+		MQA.EventUtil.observe(window, 'load', function() {
+		
+		  /*Create an object for options*/ 
+		  var options={
+			elt:document.getElementById('map'),       /*ID of element on the page where you want the map added*/ 
+			zoom:13,                                  /*initial zoom level of the map*/ 
+			latLng:{lat: mylat + 0.001, lng:mylng},  /*center of map in latitude/longitude */ 
+			mtype:'map',                              /*map type (map)*/ 
+			bestFitMargin:0,                          /*margin offset from the map viewport when applying a bestfit on shapes*/ 
+			zoomOnDoubleClick:true                    /*zoom in when double-clicking on map*/ 
+		  };
+	
+		  /*Construct an instance of MQA.TileMap with the options object*/ 
+		  	window.map = new MQA.TileMap(options);
+		  	
+			var info1 = new MQA.Poi( {lat:mylat, lng:mylng} );
+			var info2 = new MQA.Poi( {lat:latForInfo2, lng:lngForInfo2} );
+			var info3 = new MQA.Poi( {lat:latForInfo3, lng:lngForInfo3 } );
+			var info4 = new MQA.Poi( {lat:latForInfo4, lng:lngForInfo4 } );
+			var info5 = new MQA.Poi( {lat:latForInfo5, lng:lngForInfo5 } );
+			var info6 = new MQA.Poi( {lat:latForInfo6, lng:lngForInfo6 } );
+			var info7 = new MQA.Poi( {lat:latForInfo7, lng:lngForInfo7 } );
+			var info8 = new MQA.Poi( {lat:latForInfo8, lng:lngForInfo8 } );
+			var info9 = new MQA.Poi( {lat:latForInfo9, lng:lngForInfo9 } );
+			var info10 = new MQA.Poi( {lat:latForInfo10, lng:lngForInfo10 } );
+			
+			var customIcon1=new MQA.Icon('http://www.mapquestapi.com/staticmap/geticon?uri=poi-1.png',30,30);
+			var customIcon2=new MQA.Icon('http://www.mapquestapi.com/staticmap/geticon?uri=poi-2.png',30,30);
+			var customIcon3=new MQA.Icon('http://www.mapquestapi.com/staticmap/geticon?uri=poi-3.png',30,30);
+			var customIcon4=new MQA.Icon('http://www.mapquestapi.com/staticmap/geticon?uri=poi-4.png',30,30);
+			var customIcon5=new MQA.Icon('http://icons.iconarchive.com/icons/icons-land/vista-map-markers/64/Map-Marker-Ball-Pink-icon.png',30,30);
+			var customIcon6=new MQA.Icon('http://icons.iconarchive.com/icons/icons-land/vista-map-markers/64/Map-Marker-Ball-Chartreuse-icon.png',30,30);
+			var customIcon7=new MQA.Icon('http://icons.iconarchive.com/icons/icons-land/vista-map-markers/64/Map-Marker-Ball-Azure-icon.png',30,30);
+			
+  			info1.setIcon(customIcon5);
+			info2.setIcon(customIcon5);
+			info3.setIcon(customIcon6);
+			info4.setIcon(customIcon6);
+			info5.setIcon(customIcon5);
+			info6.setIcon(customIcon6);
+			info7.setIcon(customIcon7);
+			info8.setIcon(customIcon5);
+			info9.setIcon(customIcon7);
+			info10.setIcon(customIcon6);
+			
+			MQA.withModule('shapes', function() {
+				var circle = new MQA.CircleOverlay();
+				circle.radiusUnit='KM';
+				circle.radius= '0.9';
+				circle.borderWidth=0;
+				//circle.color='#0000FF';
+				//circle.colorAlpha = .3;
+				circle.fillColor='#0000BB';
+				circle.fillColorAlpha= .25;
+				circle.shapePoints=[latForCircle, lngForCircle];
+				
+				var circleImage = new MQA.ImageOverlay();
+				//circleImage.imageURL="http://icons.iconarchive.com/icons/sekkyumu/developpers/24/Blue-Ball-icon.png"; 
+		//circleImage.imageURL="http://icons.iconarchive.com/icons/fatcow/farm-fresh/24/bullet-blue-icon.png";
+circleImage.imageURL="http://icons.iconarchive.com/icons/deleket/scrap/48/Aqua-Ball-Green-icon.png";
+				
+				circleImage.shapePoints=[mylat - 0.001, mylng + 0.017, mylat + 0.001, mylng+0.019];
+				/*Sets the shape points. 
+				[upper left latitude, upper left longitude, lower right latitude, lower right longitude]*/ 
+				
+				var line = new MQA.LineOverlay();
+				
+				//line.setShapePoints([latForCircle. lngForCircle, latForInfo2, lngForInfo2]);
+				line.setShapePoints([42.017713, -70.98403, latForCircle - 0.001, lngForCircle]);
+				//line.setShapePoints([42.019713, -70.984039, latForCircle - 0.001, lngForCircle]);
+				
+				line.color='#CC00BB';
+				line.colorAlpha = '0.8';
+				line.borderWidth = 6;
+				
+				map.addShape(circle);
+				//map.addShape(line);
+				map.addShape(circleImage);
+			});
+			
+			
+  			/*	
+			*/
+			map.addShape(info1);
+			map.addShape(info2);
+			map.addShape(info3);
+			
+			map.addShape(info4);
+			map.addShape(info5);
+			map.addShape(info6);
+			map.addShape(info7);
+			map.addShape(info8);
+			
+			map.addShape(info9);
+			
+			map.addShape(info10);
+			
+			//window.poi=new MQA.Poi({lat:mylat, lng:mylng});
+			//poi.setRolloverContent('Sports Authority Field at Mile High');
+			//poi.setInfoContentHTML('Adela Jahra');
+			//poi.setIcon(customIcon1);
+			//map.addShape(poi);
+			//poi.toggleInfoWindow();
+			
+			info1.setRolloverContent('Tianjiao Liu');
+			info2.setRolloverContent('Alex Wickerham');
+			info3.setRolloverContent('This');
+			info4.setRolloverContent('Jae Lee');
+			info5.setRolloverContent('Bomi Kim');
+			info6.setRolloverContent('Yoonhee');
+			info7.setRolloverContent('Chin Powit');
+			info8.setRolloverContent('Mark Pfaff');
+			info9.setRolloverContent('Sung Moon');
+			info10.setRolloverContent('Bob Cabot');
+			//info9.setInfoContentHTML('<a href="#chatPage">Volunteer: <strong>Mark Pfaff</strong></a>');
+			//info9.toggleInfoWindow();
+			
+			//MQA.EventManager.addListener(poi, 'click', eventRaised);
+			MQA.EventManager.addListener(info1, 'click', eventRaised);
+			MQA.EventManager.addListener(info2, 'click', eventRaised);
+			MQA.EventManager.addListener(info3, 'click', eventRaised);
+			MQA.EventManager.addListener(info4, 'click', eventRaised);
+			MQA.EventManager.addListener(info5, 'click', eventRaised);
+			MQA.EventManager.addListener(info6, 'click', eventRaised);
+			MQA.EventManager.addListener(info7, 'click', eventRaised);
+			MQA.EventManager.addListener(info8, 'click', eventRaised);
+			MQA.EventManager.addListener(info9, 'click', eventRaised);
+			MQA.EventManager.addListener(info10, 'click', eventRaised);
+ 			
+			/*
+			MQA.EventManager.addListener(info9, 'mousedown', eventRaised);
+			MQA.EventManager.addListener(info9, 'mouseup', eventRaised);
+			MQA.EventManager.addListener(info9, 'click', eventRaised);
+			MQA.EventManager.addListener(info9, 'removed', eventRaised);
+			MQA.EventManager.addListener(info9, 'rolloveropen', eventRaised);
+			MQA.EventManager.addListener(info9, 'rolloverclose', eventRaised);
+			MQA.EventManager.addListener(info9, 'infowindowopen', eventRaised);
+			MQA.EventManager.addListener(info9, 'infowindowclose', eventRaised);
+			MQA.EventManager.addListener(info9, 'infowindowmouseoverstate', eventRaised);
+			MQA.EventManager.addListener(info9, 'infowindowmouseoutstate', eventRaised);
+			*/
+
+ 
+			MQA.withModule('smallzoom','traffictoggle','viewoptions','geolocationcontrol','insetmapcontrol','mousewheel', function() {
+	
+				map.addControl(
+					new MQA.SmallZoom(),
+					new MQA.MapCornerPlacement(MQA.MapCorner.TOP_LEFT, new MQA.Size(5,5))
+				);
+
+				
+				map.addControl(new MQA.TrafficToggle());
+			
+				map.addControl(new MQA.ViewOptions());
+			
+				map.addControl(
+				  new MQA.GeolocationControl(),
+				  new MQA.MapCornerPlacement(MQA.MapCorner.TOP_RIGHT, new MQA.Size(10,30))
+				);
+			
+				/*Inset Map Control options*/ 
+				var options={
+				  size:{width:200, height:125},
+				  zoom:3,
+				  mapType:'map',
+				  minimized:true };
+			
+				map.addControl(
+				  new MQA.InsetMapControl(options),
+				  new MQA.MapCornerPlacement(MQA.MapCorner.BOTTOM_RIGHT)
+				);
+			
+				map.enableMouseWheelZoom();
+		  });
+		 
+		 
+		  
+		  function eventRaised(evt){
+			console.log("icon clicked:");
+			
+			
+			$.mobile.changePage( "#chatPage", { 	// change
+				transition: "fade"	// "slide", fade, pop, flip, turn, flow, slidefade, slideup, slidedown
+			});
+			
+			/*
+			var e=document.createElement('div');
+			e.innerHTML=evt.eventName;
+			console.log(evt.eventName);
+			console.log(evt.name);
+			console.log(evt.targetName);
+			console.log(evt.srcObject);
+			console(evt);
+			var eDiv=document.getElementById('eventsFired');
+			eDiv.insertBefore(e, eDiv.firstChild);
+			*/
+			
+		  }	// end of function eventRaised
+		});
+	</script> 
+</head>
+
+
+<!-- *** BODY *************************************************************************** -->
+<body class="ui-mobile-viewport">
+
+<!-- *** 1st page ************************* -->
+	<div data-role="page" id="vradarPage1">
+        <div data-role="header" data-position="fixed"> 
+            <h4>Volunteer Radar</h4>
+        </div> <!-- end of header -->
+        
+        <div data-role="content">
+	        <h5>You can click a pin in the map to chat with</h5>
+            <div id="map" style="width:100%; height:300px;"></div>
+           
+            
+            <h3>Volunteer type</h3>
+            
+            
+            <div>
+                <ul data-role="listview" data-filter="false" id="radarList">
+                    <ul data-role="listview">
+                        <li>
+                            <div style="padding: 5px 0px 0px 10px;"><!-- padding: top, right, bottom, left -->
+                                <p><strong><img src="http://icons.iconarchive.com/icons/icons-land/vista-map-markers/32/Map-Marker-Ball-Pink-icon.png" alt="Volunteers" >Volunteers
+                                <img src="http://icons.iconarchive.com/icons/icons-land/vista-map-markers/32/Map-Marker-Ball-Chartreuse-icon.png" alt="Medical Volunteers">Medical
+                                <img src="http://icons.iconarchive.com/icons/icons-land/vista-map-markers/32/Map-Marker-Ball-Azure-icon.png" alt="Engineers">Engineering
+                                </strong></p>
+                            </div>
+                                
+                                
+                        </li><!-- icon image size: 16, 24, 32, 48, 64, 72, 96, 128 -->
+                        <!--   
+                        <li>
+                            <div style="padding: 0px 0px 0px 10px;">
+                                <img src="http://icons.iconarchive.com/icons/icons-land/vista-map-markers/32/Map-Marker-Ball-Chartreuse-icon.png" alt="Medical Volunteers">Medical Volunteers</div></li>
+                            
+                        <li>
+                            <div style="padding: 0px 10px 0px 10px;">
+                                <img src="http://icons.iconarchive.com/icons/icons-land/vista-map-markers/32/Map-Marker-Ball-Azure-icon.png" alt="Engineers">Engineers</div></li>
+                        -->
+                    </ul>
+                </ul>
+            </div><!-- end of list div -->
+            
+            <br/> <br/>
+            <h3>Nearby Volunteer List</h3>
+            <ul data-role="listview" data-filter="true" data-divider-theme="d">
+				<li data-role="list-divider">Volunteer</li>
+                    <li><a href="index.html"><img src="images/pink_2d.png" alt="volunteer" class="ui-li-icon">Alex Wickerham<p class="ui-li-aside"><strong>2.43</strong> miles</p></a></li>
+					<li><a href="index.html"><img src="images/pink_2d.png" alt="volunteer" class="ui-li-icon">Avery Johnson<p class="ui-li-aside"><strong>0.74</strong> miles</p></a></li>
+                    <li><a href="index.html"><img src="images/pink_2d.png" alt="volunteer" class="ui-li-icon">Bomi kim<p class="ui-li-aside"><strong>1.34</strong> miles</p></a></li>
+                    <li><a href="#chatPage"><img src="images/pink_2d.png" alt="volunteer" class="ui-li-icon">Mark Pfaff<p class="ui-li-aside"><strong>4.24</strong> miles</p></a></li>
+                    <li><a href="index.html"><img src="images/pink_2d.png" alt="volunteer" class="ui-li-icon">Tianjiao Liu<p class="ui-li-aside"><strong>5.34</strong> miles</p></a></li>
+				
+                <li data-role="list-divider">Medical Volunteers</li>
+					<li><a href="index.html"><img src="images/green_2d.png" alt="medic" class="ui-li-icon">Bob Cabot<p class="ui-li-aside"><strong>3.62</strong> miles</p></a></li>
+                    <li><a href="index.html"><img src="images/green_2d.png" alt="medic" class="ui-li-icon">Jae Lee<p class="ui-li-aside"><strong>2.94</strong> miles</p></a></li>
+                    <li><a href="index.html"><img src="images/green_2d.png" alt="medic" class="ui-li-icon">Yoonhee<p class="ui-li-aside"><strong>0.99</strong> miles</p></a></li>
+				
+                <li data-role="list-divider">Engineers</li>
+					<li><a href="index.html"><img src="images/blue_2d.png" alt="engineer" class="ui-li-icon">Chin Powit<p class="ui-li-aside"><strong>3.74</strong> miles</p></a></li>
+                    <li><a href="index.html"><img src="images/blue_2d.png" alt="engineer" class="ui-li-icon">Sung Moon<p class="ui-li-aside"><strong>1.34</strong> miles</p></a></li>
+			</ul>
+
+     
+        </div><!-- /content -->
+    </div><!-- / page -->
+    
+    
+    
+    <!-- *** 3rd page ************************* -->
+	<div data-role="page" id="chatPage">
+      <div data-role="header">
+        <h1>Mark Pfaff</h1>
+        <a href="#vradarPage1">Back</a>
+        <!--<div class="ui-icon-high-urgency ui-btn-right"></div>-->
+      </div>
+      
+      <div class="content" data-role="content" >
+            <div class="other-message">
+                <ul class="message-holder" data-role="listview" data-inset="true" data-theme="c">
+                    <li>
+                        <div class="username">Instruction</div>
+                        <div class="text">You can start a chat</div>
+                    </li>
+                </ul>
+            </div>
+      </div><!-- /content -->
+        
+        <div id="other-writing-status" style="display:none; padding:10px 10px; position:absolute; width:100%; background-color: #A0A0A0; bottom: 50px; opacity: 0.7">
+             <span style="color: #000; opacity: 1;">John Joe is writing ...</span>
+      </div>
+     
+        <div id="multimedia-panel" style="display:none;" class="multimedia-panel ui-shadow ui-btn-corner-all">
+            <div class="ui-grid-b">
+             <a href="#">
+                 <div class="ui-block-a" style="text-align: center;">
+                     <div class="ui-icon-video-chat" style="margin: 10px auto;"></div>
+                 </div>
+             </a>
+             <a href="#">
+                 <div class="ui-block-b">
+                     <div class="ui-icon-photo" style="margin: 10px auto;"></div>
+                 </div>
+             </a>
+             <a href="#">
+                 <div class="ui-block-c">
+                     <div class="ui-icon-invite" style="margin: 10px auto;"></div>
+                 </div>
+             </a>
+         </div>
+     </div>
+        
+      <div data-theme="b" data-role="footer" data-id="foo1" data-position="fixed">
+            
+            <table class="bottom-chat-bar" style="width: 100%;">
+                <tr>
+                    <td style="width: 24px;" class="add-multi-btn-holder"><button  onclick="toggleMultimedia()" data-inline="true" data-role="button" data-icon="plus" data-iconpos="notext"></button></td>
+                    <td style="width: auto;"><input data-mini="true" type="text" name="name" id="message-text-field" value=""  /></td>
+                    <td style="width: 29px;"><button onclick="sendMessage()" data-inline="true" data-mini="true">Send</button></td>
+                </tr>
+            </table>	
+      </div><!-- /footer -->
+    </div>
+    
+    
+    <!-- *** 4th page ************************* -->
+	<div data-role="page" id="page">
+        <div data-role="header" data-position="fixed"> 
+            <h4>Reuniting Missing Family</h4>
+        </div> <!-- end of header -->
+        
+        <div data-role="content">
+        
+        </div><!-- /content -->
+    </div><!-- / page -->
+</body>
+</html>

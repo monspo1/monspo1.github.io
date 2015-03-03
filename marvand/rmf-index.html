@@ -1,0 +1,428 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    
+	<title>MARVAND Application</title>
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+    <link rel="stylesheet" href="http://jquerymobile.com/demos/1.2.0/docs/_assets/css/jqm-docs.css"/>
+	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+	<style>
+		.ui-header .ui-title {
+			margin-right: 10%;
+			margin-left: 10%;
+			/* 
+			http://stackoverflow.com/questions/8718384/why-is-my-header-text-being-truncated */
+		}
+		
+		.ui-grid-a .ui-block-a { 
+            width: 40% 
+        }
+		.ui-grid-a .ui-block-b {
+            width: 60%; 
+        } 
+		
+		.ui-collapsible .ui-collapsible-heading .ui-btn { 
+			border-top-width: 1px !important; }
+	</style>
+	<script src="http://www.mapquestapi.com/sdk/js/v7.0.s/mqa.toolkit.js?key=Fmjtd%7Cluua2lurlu%2Cas%3Do5-hyz00"></script> 
+    
+    <!-- *** SCRIPT FOR MAP ****************************************************************************** -->
+    <script type="text/javascript"> 
+		
+		$('#rmfpage2').live('pageshow', function(event, ui){
+   			$('#popupDialog').popup('open');
+		});
+
+		$('#seekingFamilyPage').live('pageshow', function(event, ui){
+   			 $("#lastnameSeekingFamily").disable();
+		});
+		
+		
+		// http://itouchmap.com/latlong.html
+		
+		var mylat = 42.019713;
+		var mylng = -70.984039;
+		var latForInfo2 = mylat + 0.0060052;
+		var lngForInfo2 = mylng + 0.0330023;
+		
+		var latForInfo3 = mylat - 0.0105052;
+		var lngForInfo3 = mylng + 0.0130023;
+		
+		var latForInfo4 = mylat - 0.0105052;
+		var lngForInfo4 = mylng + 0.0230023;
+		
+		var latForCircle = mylat - 0.001;
+		var lngForCircle = mylng + 0.018;
+		console.log("mylat: " + latForCircle);
+		
+		MQA.EventUtil.observe(window, 'load', function() {
+		
+		  /*Create an object for options*/ 
+		  var options={
+			elt:document.getElementById('map'),       /*ID of element on the page where you want the map added*/ 
+			zoom:13,                                  /*initial zoom level of the map*/ 
+			latLng:{lat: mylat, lng:mylng},  /*center of map in latitude/longitude */ 
+			mtype:'map',                              /*map type (map)*/ 
+			bestFitMargin:0,                          /*margin offset from the map viewport when applying a bestfit on shapes*/ 
+			zoomOnDoubleClick:true                    /*zoom in when double-clicking on map*/ 
+		  };
+	
+		  /*Construct an instance of MQA.TileMap with the options object*/ 
+		  	window.map = new MQA.TileMap(options);
+		  	
+			var info1 = new MQA.Poi( {lat:mylat, lng:mylng} );
+			var info2 = new MQA.Poi( {lat:latForInfo2, lng:lngForInfo2} );
+			var info3 = new MQA.Poi( {lat:latForInfo3, lng:lngForInfo3 } );
+			var info4 = new MQA.Poi( {lat:latForInfo4, lng:lngForInfo4 } );
+			
+			var customIcon1=new MQA.Icon('http://www.mapquestapi.com/staticmap/geticon?uri=poi-1.png',20,29);
+			var customIcon2=new MQA.Icon('http://www.mapquestapi.com/staticmap/geticon?uri=poi-2.png',20,29);
+			var customIcon3=new MQA.Icon('http://www.mapquestapi.com/staticmap/geticon?uri=poi-3.png',20,29);
+			var customIcon4=new MQA.Icon('http://www.mapquestapi.com/staticmap/geticon?uri=poi-4.png',20,29);
+			
+  			info1.setIcon(customIcon1);
+			info2.setIcon(customIcon2);
+			info3.setIcon(customIcon3);
+			info4.setIcon(customIcon4);
+			
+			MQA.withModule('shapes', function() {
+				var circle = new MQA.CircleOverlay();
+				circle.radiusUnit='MI';
+				circle.radius= '0.91';
+				circle.borderWidth=0;
+				//circle.color='#0000FF';
+				//circle.colorAlpha = .3;
+				circle.fillColor='#0000BB';
+				circle.fillColorAlpha= .25;
+				circle.shapePoints=[latForCircle, lngForCircle];
+				
+				var circleImage = new MQA.ImageOverlay();
+				//circleImage.imageURL="http://icons.iconarchive.com/icons/sekkyumu/developpers/24/Blue-Ball-icon.png"; 
+		//circleImage.imageURL="http://icons.iconarchive.com/icons/fatcow/farm-fresh/24/bullet-blue-icon.png";
+circleImage.imageURL="http://icons.iconarchive.com/icons/deleket/scrap/48/Aqua-Ball-Green-icon.png";
+				
+				circleImage.shapePoints=[mylat - 0.001, mylng + 0.017, mylat + 0.001, mylng+0.019];
+				/*Sets the shape points. 
+				[upper left latitude, upper left longitude, lower right latitude, lower right longitude]*/ 
+				
+				var line = new MQA.LineOverlay();
+				
+				//line.setShapePoints([latForCircle. lngForCircle, latForInfo2, lngForInfo2]);
+				line.setShapePoints([42.017713, -70.98403, latForCircle - 0.001, lngForCircle]);
+				//line.setShapePoints([42.019713, -70.984039, latForCircle - 0.001, lngForCircle]);
+				
+				line.color='#CC00BB';
+				line.colorAlpha = '0.8';
+				line.borderWidth = 6;
+				
+				map.addShape(circle);
+				map.addShape(line);
+				map.addShape(circleImage);
+			});
+			
+  			//map.addShape(info1);
+			map.addShape(info2);
+			map.addShape(info3);
+			map.addShape(info4);
+			
+			window.poi=new MQA.Poi({lat:mylat, lng:mylng});
+			//poi.setRolloverContent('Sports Authority Field at Mile High');
+			poi.setInfoContentHTML('Adela Jahra   ');
+			poi.setIcon(customIcon1);
+			map.addShape(poi);
+			poi.toggleInfoWindow();
+ 
+		  MQA.withModule('smallzoom','traffictoggle','viewoptions','geolocationcontrol','insetmapcontrol','mousewheel', function() {
+	
+				map.addControl(
+					new MQA.SmallZoom(),
+					new MQA.MapCornerPlacement(MQA.MapCorner.TOP_LEFT, new MQA.Size(5,5))
+				);
+
+				
+				map.addControl(new MQA.TrafficToggle());
+			
+				map.addControl(new MQA.ViewOptions());
+			
+				map.addControl(
+				  new MQA.GeolocationControl(),
+				  new MQA.MapCornerPlacement(MQA.MapCorner.TOP_RIGHT, new MQA.Size(10,30))
+				);
+			
+				/*Inset Map Control options*/ 
+				var options={
+				  size:{width:200, height:125},
+				  zoom:3,
+				  mapType:'map',
+				  minimized:true };
+			
+				map.addControl(
+				  new MQA.InsetMapControl(options),
+				  new MQA.MapCornerPlacement(MQA.MapCorner.BOTTOM_RIGHT)
+				);
+			
+				map.enableMouseWheelZoom();
+		  });
+		});
+	</script> 
+</head>
+
+<body class="ui-mobile-viewport">
+
+	<!-- *** 1st page ************************* -->
+	<div data-role="page" id="rmfpage1">
+        <div data-role="header" data-position="fixed"> 
+            <h4>Reuniting Missing Family</h4>
+        </div> <!-- end of header -->
+        
+        <div data-role="content">
+        	<h3>Enter information of missing family member you found</h3>
+            <img src="images/missingChild.png" width="300"/>
+            <br/><br/>
+            <!--
+            <div data-role="fieldcontain" >
+            	<label for="lastname">Lastname:</label>
+			    <input type="text" name="lastname" id="lastname" value=""  />
+                <label for="firstname">Firstname:</label>
+			    <input type="text" name="firstname" id="firstname" value=""  />
+                <label for="location">Current location:</label>
+			    <input type="text" name="location" id="location" value="Shelter 1"  />
+                <br/><br/>
+                <label for="firstnameSeeking">Firstname of seeking family:</label>
+			    <input type="text" name="firstnameSeeking" id="firstnameSeeking" value=""  />
+
+                <label for="lastnameSeeking">Lastname of seeking family:</label>
+			    <input type="text" name="lastnameSeeking" id="lastnameSeeking" value=""  />
+                <br/><br/>
+                
+                <label for="textarea">Memo:</label>
+			<textarea cols="60" rows="44" name="textarea" id="textarea"></textarea>
+            <br/><br/>
+            <a href="#rmfpage2" id="submit" data-role="button" style="width:98%" 
+                	data-inline="true" data-theme="b">Submit</a>
+            </div>
+            -->
+            
+            <form>
+				<ul data-role="listview" data-divider-theme="f">
+                	<li data-role="list-divider" >Required fields</li>
+                	<li data-role="fieldcontain">
+                    	<label for="lastname">Lastname: <font color="#FF0000">*</font></label>
+					    <input type="text" name="lastname" id="lastname" value=""  />
+                    </li>
+                    <li data-role="fieldcontain">
+                    	<label for="firstname">Firstname: <font color="#FF0000">*</font></label>
+			    		<input type="text" name="firstname" id="firstname" value=""  />
+                    </li>
+                    <li data-role="fieldcontain">
+                    	<label for="location">Current location: <font color="#FF0000">*</font></label>
+					    <input type="text" name="location" id="location" value="Shelter 1"  />
+                    </li>
+                     
+                    <li data-role="fieldcontain">
+                    	<label for="firstnameSeeking">Firstname of seeking family: <font color="#FF0000">*</font></label>
+			   			<input type="text" name="firstnameSeeking" id="firstnameSeeking" value=""  />
+                    </li>
+                    <li data-role="fieldcontain">
+                    	<label for="lastnameSeeking">Lastname of seeking family: <font color="#FF0000">*</font></label>
+			    		<input type="text" name="lastnameSeeking" id="lastnameSeeking" value=""  />
+                    </li>
+                    
+                    <li data-role="list-divider">Optional fields</li>
+                    <li data-role="fieldcontain">
+                    	<label for="childAge">Age :</label>
+			   			<input type="text" name="childAge" id="childAge" value=""  />
+                    </li>
+                    <li data-role="fieldcontain">
+                    	<label for="childHeight">height :</label>
+			   			<input type="text" name="childHeight" id="childHeight" value=""  />
+                    </li>
+                    <!--
+                    <li data-role="fieldcontain">
+                    	<label for="lastnameSeeking">Lastname of seeking family:</label>
+			    		<input type="text" name="lastnameSeeking" id="lastnameSeeking" value=""  />
+                    </li>
+                    <li data-role="fieldcontain">
+                    	<label for="lastnameSeeking">Lastname of seeking family:</label>
+			    		<input type="text" name="lastnameSeeking" id="lastnameSeeking" value=""  />
+                    </li>
+                    -->
+                    <li data-role="fieldcontain">
+                    	<label for="textarea">Memo:</label>
+						<textarea cols="60" rows="44" name="textarea" id="textarea"></textarea>
+                    </li>
+                    
+                    <a href="#rmfpage2" id="submit" data-role="button" style="width:98%" data-inline="true" data-theme="b">Submit</a>
+                </ul><!-- /listview -->
+            </form>
+            
+        </div><!-- /content -->
+    </div><!-- / page -->
+
+
+	<!-- *** 2nd page ************************* -->
+	<div data-role="page" id="rmfpage2">
+        <div data-role="header" data-position="fixed"> 
+             <a href="#rmfpage1">Back</a>
+            <h4>Match List</h4>
+        </div> <!-- end of header -->
+        
+        <div data-role="content">
+        <div id="map" style="width:100%; height:300px;"></div>
+        <br/><br/>
+        <div>
+        	<ul data-role="listview" data-filter="true" data-divider-theme="f">
+				<li data-role="list-divider" >Exact Match</li>
+                <li><a href="#seekingFamilyPage"><img src="images/seekingFamily.png" height="100%" width="80"/>Adela Jahra</a></li>
+                
+                <li data-role="list-divider">Similar Matches</li>
+				<li><a href=""><img src="images/person_2.png" height="100%" />Ali Jahra</a></li>
+				<li><a href=""><img src="images/person_2.png" height="100%" />Hima Saeed</a></li>
+				<li><a href=""><img src="images/person_2.png" height="100%" />Hima al-Azizi</a></li>
+				
+			</ul>
+        </div>
+        <!--
+        <div data-role="popup" id="popupDialog" data-overlay-theme="a" data-theme="c" style="max-width:400px;" class="ui-corner-all">
+            <div data-role="header" data-theme="c" class="ui-corner-top">
+                <h2>Match found</h2>
+            </div>
+            <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+                <h3 class="ui-title">1 exact match</h3>
+                <p>3 similar matches</p>
+                <a href="#" data-role="button" data-inline="true" data-rel="back" data-theme="c">Cancel</a>    
+                <a href="#" data-role="button" data-inline="true" data-rel="back" data-transition="flow" data-theme="b">View</a>  
+            </div>
+        </div>-->
+    	<div data-role="popup" id="popupDialog" data-overlay-theme="b" data-theme="b" style="max-width:400px;" class="ui-corner-all">
+            <div data-role="header" data-theme="b" class="ui-corner-top">
+                <h2>Match found</h2>
+            </div>
+            <div data-role="content" data-theme="b" class="ui-corner-bottom ui-content">
+                <h3 class="ui-title">1 exact match</h3>
+                <p>3 similar matches</p>
+                <a href="#" data-role="button" data-inline="true" data-rel="back" data-theme="c">Cancel</a>    
+                <a href="#rmfpage2" data-role="button" data-inline="true" data-rel="back" data-transition="flow" data-theme="b">View</a>  
+            </div>
+        </div>
+        </div><!-- /content -->
+    </div><!-- / page -->
+    
+    
+    
+    <!-- *** 3rd page ************************* -->
+	<div data-role="page" id="seekingFamilyPage">
+        <div data-role="header" data-position="fixed"> 
+            <a href="#rmfpage2">Back</a>
+            <h4>Seeking Family</h4>
+        </div> <!-- end of header -->
+        
+        <div data-role="content">
+        	<h3>Information of seeking family</h3>
+            <img src="images/seekingFamily.png" width="95%"/>
+            <br/><br/>
+            <div data-role="fieldcontain">
+            	<!--
+                <h3>Adela Jahra</h3>
+                -->
+			
+                
+            
+            	<!--
+                
+                <ul data-role="listview">
+                    <li><h5>Lastname: </h5><h2><b>Adela</b></h2></li>
+                    <label for="lastnameSeekingFamily">Lastname:</label>
+                    <label for="lastnameSeekingFamily"><h3>aaa</h3></label>
+	        		<input type="text" name="lastnameSeekingFamily" id="lastnameSeekingFamily" value="Adela" disabled="disabled"  />
+                </ul>
+            <br/><br/>
+            	<ul>
+                    <li>lastname: <strong>Adela</strong></li>
+                    <li>Unordered list item 1</li>
+                    <li>Unordered list item 1</li>
+                </ul>
+                <ol>
+                    <li>Ordered list item 1</li>
+                    <li>Ordered list item 1</li>
+                    <li>Ordered list item 1</li>
+                </ol>
+                -->
+                <!--
+                .ui-collapsible .ui-collapsible-heading .ui-btn { 
+                	border-top-width: 1px !important; 
+                }
+                -->
+                
+                
+                <div data-role="collapsible" data-theme="f" data-collapsed="false" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d" >
+                    <h3>Person who seek for you</h3>
+                    <div class="ui-grid-a">
+                        <div class="ui-block-a"><strong>Last name: </strong></div>
+                        <div class="ui-block-b">Adela</div>	   
+                    </div>
+                    <br/><hr />
+                    <div class="ui-grid-a">
+                        <div class="ui-block-a"><strong>First name: </strong></div>
+                        <div class="ui-block-b">Jahra</div>	   
+                    </div>
+                    <br/><hr />
+                    
+                    <div class="ui-grid-a">
+                        <div class="ui-block-a"><strong>Current location: </strong></div>
+                        <div class="ui-block-b">Shelter 3</div>	   
+                    </div>
+                    <br/><hr />
+                </div>
+                
+                
+                <div data-role="collapsible" data-theme="f" data-collapsed="false" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d" >
+                	<h3>Missing family</h3>
+                    <div class="ui-grid-a">
+                        <div class="ui-block-a"><strong>Seeking person: </strong></div>
+                        <div class="ui-block-b">Hima Muhammad</div>	   
+                    </div>
+                    <br/><hr /><br/>
+                    
+                    <div class="ui-grid-a">
+                        <div class="ui-block-a"><strong>Additional description: </strong></div>
+                        <div class="ui-block-b">age 8, 130~135 cm, brown hair</div>	   
+                    </div>
+                    <br/><hr /><br/>
+                    <!--
+                    <div class="ui-grid-a">
+                        <div class="ui-block-a">Block A</div>
+                        <div class="ui-block-c">Block B</div>
+                       
+                    </div><!-- /grid-b 
+                    -->
+                    <div>
+	                    <label for="textarea"><strong>Message to send:</strong></label>
+						<textarea cols="60" rows="44" name="textarea" id="textarea"></textarea>
+                    </div>
+				</div>                
+            <!--<input type="submit" value="Submit" data-theme="b" />-->
+            <a href="#finishRMFpage" id="submit" data-role="button" style="width:98%" 
+                	data-inline="true" data-theme="b">Leave a Message</a>
+            </div>
+        </div><!-- /content -->
+    </div><!-- / page -->
+    
+    
+    <!-- *** 4th page ************************* -->
+	<div data-role="page" id="finishRMFpage">
+        <div data-role="header" data-position="fixed"> 
+        	 <a href="#seekingFamilyPage">Back</a>
+            <h4>Reuniting Missing Family</h4>
+        </div> <!-- end of header -->
+        
+        <div data-role="content">
+         Congratulation! You finished the task 2..
+        </div><!-- /content -->
+    </div><!-- / page -->
+</body>
+</html>
